@@ -1,2 +1,18 @@
 pool:
   vmImage: 'windows-2019'
+  variables:
+  buildConfiguration: 'Release'
+  outputDirectory: '$(build.binariesDirectory)/$(buildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@0
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: 'MobileTest.sln'
+
+- task: XamarinAndroid@1
+  inputs:
+    projectFile: 'MobileTest/MobileTest.csproj'
+    outputDirectory: '$(outputDirectory)'
+    configuration: '$(buildConfiguration)'
